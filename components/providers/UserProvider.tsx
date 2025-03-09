@@ -36,14 +36,13 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
     }
   };
-  console.log(user);
 
   useEffect(() => {
     check();
   }, []);
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {user && children}
+      {children}
     </UserContext.Provider>
   );
 };
