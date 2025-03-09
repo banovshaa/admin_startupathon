@@ -1,0 +1,40 @@
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.32);
+  -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+}
+.modal .outer__box {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+}
+.modal .inner__box {
+  max-height: 90vh;
+  min-width: 90vw;
+  background: #ffffff;
+  z-index: 1;
+  border-radius: 16px;
+  position: relative;
+  animation: animationOpen 0.3s ease-out;
+  overflow: auto;
+}
+
+@keyframes animationOpen {
+  0% {
+    bottom: 50px;
+    opacity: 0;
+  }
+  100% {
+    bottom: 0;
+    opacity: 1;
+  }
+}/*# sourceMappingURL=Modal.module.css.map */

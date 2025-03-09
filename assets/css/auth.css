@@ -1,0 +1,46 @@
+.auth__container {
+  height: 100vh;
+  position: relative;
+  width: 100%;
+}
+.auth__container .login__box {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  left: 50%;
+  max-width: 100%;
+  padding: 30px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+}
+.auth__container .login__box form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.auth__container .login__box .title {
+  color: #333;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.auth__container .login__box .forgot__password, .auth__container .login__box .signup__link {
+  text-align: center;
+  margin-top: 10px;
+}
+.auth__container .login__box .forgot__password a, .auth__container .login__box .signup__link a {
+  color: #3498db;
+  font-weight: 500;
+}
+.auth__container .login__box .forgot__password :hover, .auth__container .login__box .signup__link :hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .login__box {
+    padding: 20px;
+  }
+}/*# sourceMappingURL=auth.css.map */

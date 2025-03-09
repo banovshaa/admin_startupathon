@@ -1,0 +1,20 @@
+.sidebar {
+  width: 100%;
+}
+.sidebar__navigation a {
+  transition: 0.3s;
+  padding: 12px 20px;
+  text-align: center;
+  display: block;
+}
+.sidebar__navigation a span {
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
+.sidebar__navigation a.active span {
+  color: #2d82d0;
+}
+.sidebar__navigation a:hover {
+  background-color: #ececec;
+}/*# sourceMappingURL=Sidebar.module.css.map */

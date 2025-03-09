@@ -1,0 +1,19 @@
+.dashboard__layout {
+  display: flex;
+  height: 100vh;
+  overflow-y: hidden;
+}
+.dashboard__layout .sidebar__wrapper {
+  width: 280px;
+  background-color: #f5f5f5;
+  border-right: 1px solid #f0f0f0;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-color: #2d82d0 #b1b3b8;
+  scrollbar-width: thin;
+}
+.dashboard__layout .children__wrapper {
+  width: calc(100% - 280px);
+  height: 100%;
+  background-color: #f9f9f9;
+}/*# sourceMappingURL=DashboardLayout.module.css.map */
