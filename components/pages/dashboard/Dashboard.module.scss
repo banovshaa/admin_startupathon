@@ -1,0 +1,29 @@
+.dashboard {
+  width: 100%;
+  height: calc(100% - 64px);
+  overflow-y: hidden;
+  & .status__btn {
+    align-items: center;
+    display: flex;
+    height: 30px;
+    background: #000;
+    justify-content: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 8px;
+    width: 100%;
+    & span {
+      color: #fff;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 16px;
+    }
+    &.visible {
+      background: #5cb055;
+      & span {
+        color: #1d3c1b;
+      }
+    }
+  }
+}

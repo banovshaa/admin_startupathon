@@ -1,0 +1,79 @@
+.title {
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.checkbox__wrapper .tgl {
+  display: none;
+}
+.checkbox__wrapper .tgl,
+.checkbox__wrapper .tgl:after,
+.checkbox__wrapper .tgl:before,
+.checkbox__wrapper .tgl *,
+.checkbox__wrapper .tgl *:after,
+.checkbox__wrapper .tgl *:before,
+.checkbox__wrapper .tgl + .tgl__btn {
+  box-sizing: border-box;
+}
+.checkbox__wrapper .tgl::-moz-selection,
+.checkbox__wrapper .tgl:after::-moz-selection,
+.checkbox__wrapper .tgl:before::-moz-selection,
+.checkbox__wrapper .tgl *::-moz-selection,
+.checkbox__wrapper .tgl *:after::-moz-selection,
+.checkbox__wrapper .tgl *:before::-moz-selection,
+.checkbox__wrapper .tgl + .tgl__btn::-moz-selection,
+.checkbox__wrapper .tgl::selection,
+.checkbox__wrapper .tgl:after::selection,
+.checkbox__wrapper .tgl:before::selection,
+.checkbox__wrapper .tgl *::selection,
+.checkbox__wrapper .tgl *:after::selection,
+.checkbox__wrapper .tgl *:before::selection,
+.checkbox__wrapper .tgl + .tgl__btn::selection {
+  background: none;
+}
+.checkbox__wrapper .tgl + .tgl__btn {
+  outline: 0;
+  display: block;
+  width: 4em;
+  height: 2em;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.checkbox__wrapper .tgl + .tgl__btn:after,
+.checkbox__wrapper .tgl + .tgl__btn:before {
+  position: relative;
+  display: block;
+  content: "";
+  width: 50%;
+  height: 100%;
+}
+.checkbox__wrapper .tgl + .tgl__btn:after {
+  left: 0;
+}
+.checkbox__wrapper .tgl + .tgl__btn:before {
+  display: none;
+}
+.checkbox__wrapper .tgl:checked + .tgl__btn:after {
+  left: 50%;
+}
+
+.checkbox__wrapper .tgl__light + .tgl__btn {
+  background: #f0f0f0;
+  border-radius: 2em;
+  padding: 2px;
+  transition: all 0.4s ease;
+}
+.checkbox__wrapper .tgl__light + .tgl__btn:after {
+  border-radius: 50%;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+.checkbox__wrapper .tgl__light:checked + .tgl__btn {
+  background: #3b82f6;
+}

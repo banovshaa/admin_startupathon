@@ -1,0 +1,19 @@
+.textarea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  & span {
+    color: #000;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  & textarea {
+    min-height: 130px;
+    margin-top: 8px;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    padding: 10px;
+    resize: none;
+  }
+}

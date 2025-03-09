@@ -1,0 +1,20 @@
+.button {
+  align-items: center;
+  background: #2e81d4;
+  border: 1px solid transparent;
+  display: flex;
+  gap: 8px;
+  height: 40px;
+  justify-content: center;
+  padding-left: 16px;
+  padding-right: 16px;
+  transition: 0.3s;
+  & span {
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+}
