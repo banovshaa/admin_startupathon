@@ -14,6 +14,7 @@ import { formDataCreate } from "@/libs/form";
 import { createCompleterRequest } from "@/services/completers.service";
 import { CompleterType } from "@/interfaces/dashboard.interfaces";
 import { LoaderContext } from "@/components/providers/LoaderProvider";
+import { toast } from "react-toastify";
 
 const AddCompleterModal = ({
   state,
@@ -81,6 +82,8 @@ const AddCompleterModal = ({
       setData((prevState) => {
         return [...prevState, data.created];
       });
+    } else {
+      toast.error("Failed to create completer");
     }
     setLoading(false);
   };

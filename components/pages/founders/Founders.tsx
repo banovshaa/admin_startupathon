@@ -8,6 +8,7 @@ import AddFounderModal from "./AddFounderModal/AddFounderModal";
 import { FounderType } from "@/interfaces/dashboard.interfaces";
 import { getAllFoundersRequest } from "@/services/founders.service";
 import { LoaderContext } from "@/components/providers/LoaderProvider";
+import { toast } from "react-toastify";
 
 const tableRowList = [
   {
@@ -37,8 +38,9 @@ const Founders = () => {
     const { data, status } = await getAllFoundersRequest();
     if (status === 200) {
       const foundersData = data.founders;
-
       setFounders(foundersData);
+    } else {
+      toast.error("Failed to fetch founders");
     }
     setLoading(false);
   };

@@ -1,8 +1,8 @@
 "use client";
 
-import "@/assets/css/auth.scss";
+import { AxiosError } from "axios";
+import { useContext, useRef } from "react";
 import { LoaderContext } from "@/components/providers/LoaderProvider";
-
 import Button from "@/components/shared/Button/Button";
 import Input from "@/components/shared/Input/Input";
 import { formDataCreate } from "@/libs/form";
@@ -12,7 +12,9 @@ import {
 } from "@/services/auth/auth.service";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useContext, useRef } from "react";
+import { toast } from "react-toastify";
+import React, { FormEvent } from "react";
+import "@/assets/css/auth.scss";
 
 const Register = () => {
   const router = useRouter();
@@ -24,6 +26,7 @@ const Register = () => {
     email: useRef<HTMLInputElement>(null),
     password: useRef<HTMLInputElement>(null),
   };
+
   const checkUser = async () => {
     const formData = formDataCreate([
       {
@@ -31,8 +34,17 @@ const Register = () => {
         value: inputRefs.email.current?.value || "",
       },
     ]);
-    const { data } = await checkUserRequest(formData);
-    return data.user;
+    try {
+      const { data } = await checkUserRequest(formData);
+      return data.user;
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.message || "An error occurred.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -40,9 +52,11 @@ const Register = () => {
     setLoading(true);
     const emailExists = await checkUser();
     if (emailExists) {
-      alert("this user exists");
+      toast.error("This user already exists");
+      setLoading(false);
       return;
     }
+
     const formData = formDataCreate([
       {
         name: "firstName",
@@ -62,13 +76,23 @@ const Register = () => {
       },
     ]);
 
-    const { status } = await registerRequest(formData);
+    try {
+      const { status } = await registerRequest(formData);
 
-    if (status === 200) {
-      router.push("/auth/login");
+      if (status === 200) {
+        router.push("/auth/login");
+      }
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.message || "Registration failed.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
+
   return (
     <>
       <div className="auth__container">
@@ -109,6 +133,7 @@ const Register = () => {
             /> */}
             <Button name="Sign Up" style={{ width: "100%" }} />
           </form>
+
           <p className="signup__link">
             Already have an account? <Link href="/auth/login">Sign in</Link>
           </p>

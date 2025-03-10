@@ -8,6 +8,7 @@ import AddCompleterModal from "./AddCompleterModal/AddCompleterModal";
 import { getAllCompletersRequest } from "@/services/completers.service";
 import { CompleterType } from "@/interfaces/dashboard.interfaces";
 import { LoaderContext } from "@/components/providers/LoaderProvider";
+import { toast } from "react-toastify";
 
 const tableRowList = [
   {
@@ -47,8 +48,9 @@ const Completers = () => {
     const { data, status } = await getAllCompletersRequest();
     if (status === 200) {
       const completerData = data.completers;
-
       setCompleters(completerData);
+    } else {
+      toast.error("Failed to fetch completers");
     }
     setLoading(false);
   };

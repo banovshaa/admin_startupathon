@@ -14,6 +14,7 @@ import { FounderType } from "@/interfaces/dashboard.interfaces";
 import { formDataCreate } from "@/libs/form";
 import { createFounderRequest } from "@/services/founders.service";
 import { LoaderContext } from "@/components/providers/LoaderProvider";
+import { toast } from "react-toastify";
 
 const AddFounderModal = ({
   state,
@@ -71,6 +72,8 @@ const AddFounderModal = ({
       setData((prevState) => {
         return [...prevState, data.created];
       });
+    } else {
+      toast.error("Failed to create founder");
     }
     setLoading(false);
   };

@@ -8,6 +8,8 @@ import AddChallengeModal from "./AddChallengeModal/AddChallengeModal";
 import { ChallengeType } from "@/interfaces/dashboard.interfaces";
 import { getAllChallengesRequest } from "@/services/challenges.service";
 import { LoaderContext } from "@/components/providers/LoaderProvider";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 const tableRowList = [
   {
@@ -40,16 +42,25 @@ const Dashboard = () => {
 
   const get = async () => {
     setLoading(true);
-    const { data, status } = await getAllChallengesRequest();
+    try {
+      const { data, status } = await getAllChallengesRequest();
 
-    if (status === 200) {
-      const challengeData = data.challenges;
-
-      setChallenges(challengeData);
+      if (status === 200) {
+        const challengeData = data.challenges;
+        setChallenges(challengeData);
+      } else {
+        toast.error("Failed to fetch challenges");
+      }
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        toast.error("Error fetching challenges");
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-
   useEffect(() => {
     get();
   }, []);
