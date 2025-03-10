@@ -3,10 +3,11 @@
 import DefaultHeader from "@/components/shared/DefaultHeader/DefaultHeader";
 import Table from "@/components/shared/Table/Table";
 import styles from "./Completers.module.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddCompleterModal from "./AddCompleterModal/AddCompleterModal";
 import { getAllCompletersRequest } from "@/services/completers.service";
 import { CompleterType } from "@/interfaces/dashboard.interfaces";
+import { LoaderContext } from "@/components/providers/LoaderProvider";
 
 const tableRowList = [
   {
@@ -39,14 +40,17 @@ const tableRowList = [
 const Completers = () => {
   const [modal, setModal] = useState(false);
   const [completers, setCompleters] = useState<CompleterType[]>([]);
+  const { setLoading } = useContext(LoaderContext);
 
   const get = async () => {
+    setLoading(true);
     const { data, status } = await getAllCompletersRequest();
     if (status === 200) {
       const completerData = data.completers;
 
       setCompleters(completerData);
     }
+    setLoading(false);
   };
 
   useEffect(() => {

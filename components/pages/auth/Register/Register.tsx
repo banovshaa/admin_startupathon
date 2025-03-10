@@ -1,6 +1,7 @@
 "use client";
 
 import "@/assets/css/auth.scss";
+import { LoaderContext } from "@/components/providers/LoaderProvider";
 
 import Button from "@/components/shared/Button/Button";
 import Input from "@/components/shared/Input/Input";
@@ -11,10 +12,12 @@ import {
 } from "@/services/auth/auth.service";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useRef } from "react";
+import React, { FormEvent, useContext, useRef } from "react";
 
 const Register = () => {
   const router = useRouter();
+  const { setLoading } = useContext(LoaderContext);
+
   const inputRefs = {
     firstName: useRef<HTMLInputElement>(null),
     lastName: useRef<HTMLInputElement>(null),
@@ -34,7 +37,7 @@ const Register = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     const emailExists = await checkUser();
     if (emailExists) {
       alert("this user exists");
@@ -64,6 +67,7 @@ const Register = () => {
     if (status === 200) {
       router.push("/auth/login");
     }
+    setLoading(false);
   };
   return (
     <>

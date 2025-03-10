@@ -3,6 +3,7 @@ import React, {
   Dispatch,
   FormEvent,
   SetStateAction,
+  useContext,
   useRef,
   useState,
 } from "react";
@@ -14,6 +15,7 @@ import Checkbox from "@/components/shared/Checkbox/Checkbox";
 import { formDataCreate } from "@/libs/form";
 import { createChallengeRequest } from "@/services/challenges.service";
 import { ChallengeType } from "@/interfaces/dashboard.interfaces";
+import { LoaderContext } from "@/components/providers/LoaderProvider";
 
 const AddChallengeModal = ({
   state,
@@ -31,10 +33,12 @@ const AddChallengeModal = ({
     image: useRef<HTMLInputElement>(null),
     description: useRef<HTMLTextAreaElement>(null),
   };
+  const { setLoading } = useContext(LoaderContext);
+
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = formDataCreate([
       {
         name: "title",
@@ -72,6 +76,7 @@ const AddChallengeModal = ({
         return [...prevState, data.created];
       });
     }
+    setLoading(false);
   };
   return (
     <Modal state={state} setState={setState}>
@@ -91,7 +96,12 @@ const AddChallengeModal = ({
             required
             inputRef={inputRefs.deadline}
           />
-          <Input name={"Image"} required inputRef={inputRefs.image} />
+          <Input
+            name={"Image"}
+            type="url"
+            required
+            inputRef={inputRefs.image}
+          />
           <Checkbox
             name={"Visibility"}
             id={"visibility"}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter, usePathname } from "next/navigation";
 import { UserType } from "@/interfaces/dashboard.interfaces";
 import { getCookie } from "@/libs/cookies";
 import { checkCookieRequest } from "@/services/auth/auth.service";
@@ -11,6 +12,7 @@ import {
   useEffect,
   useState,
 } from "react";
+
 type UserContextType = {
   user: UserType | null;
   setUser: Dispatch<SetStateAction<UserType | null>>;
@@ -23,26 +25,44 @@ export const UserContext = createContext<UserContextType>({
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
   const check = async () => {
     const token = getCookie("usertoken");
+
     if (!token) {
       setUser(null);
+      if (pathname !== "/auth/login" && pathname !== "/auth/register") {
+        router.push("/auth/login");
+      }
       return;
     }
-    const { data, status } = await checkCookieRequest(token);
-    if (status === 200) {
-      setUser(data);
-    } else {
+
+    try {
+      const { data, status } = await checkCookieRequest(token);
+
+      if (status === 200) {
+        setUser(data);
+        if (pathname === "/auth/login" || pathname === "/auth/register") {
+          router.push("/");
+        }
+      } else {
+        setUser(null);
+        router.push("/auth/login");
+      }
+    } catch (error) {
+      console.error("Error checking user:", error);
       setUser(null);
+      router.push("/auth/login");
     }
   };
-
   useEffect(() => {
     check();
-  }, []);
+  }, [router, pathname]);
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {children}
+      {user && children}
     </UserContext.Provider>
   );
 };

@@ -1,12 +1,19 @@
 import styles from "@/components/pages/dashboard/AddChallengeModal/AddChallengeModal.module.scss";
 import Modal from "@/components/shared/Modal/Modal";
-import React, { Dispatch, FormEvent, SetStateAction, useRef } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useContext,
+  useRef,
+} from "react";
 import Input from "@/components/shared/Input/Input";
 import Button from "@/components/shared/Button/Button";
 import Textarea from "@/components/shared/Textarea/Textarea";
 import { FounderType } from "@/interfaces/dashboard.interfaces";
 import { formDataCreate } from "@/libs/form";
 import { createFounderRequest } from "@/services/founders.service";
+import { LoaderContext } from "@/components/providers/LoaderProvider";
 
 const AddFounderModal = ({
   state,
@@ -17,6 +24,8 @@ const AddFounderModal = ({
   setState: Dispatch<SetStateAction<boolean>>;
   setData: Dispatch<SetStateAction<FounderType[]>>;
 }) => {
+  const { setLoading } = useContext(LoaderContext);
+
   const inputRefs = {
     firstName: useRef<HTMLInputElement>(null),
     lastName: useRef<HTMLInputElement>(null),
@@ -27,7 +36,7 @@ const AddFounderModal = ({
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = formDataCreate([
       {
         name: "firstName",
@@ -63,6 +72,7 @@ const AddFounderModal = ({
         return [...prevState, data.created];
       });
     }
+    setLoading(false);
   };
   return (
     <Modal state={state} setState={setState}>
@@ -80,6 +90,7 @@ const AddFounderModal = ({
           />
           <Input
             name={"Profile Picture"}
+            type="url"
             required
             inputRef={inputRefs.profilePicture}
           />

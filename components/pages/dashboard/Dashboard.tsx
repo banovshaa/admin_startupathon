@@ -3,10 +3,11 @@
 import DefaultHeader from "@/components/shared/DefaultHeader/DefaultHeader";
 import Table from "@/components/shared/Table/Table";
 import styles from "./Dashboard.module.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddChallengeModal from "./AddChallengeModal/AddChallengeModal";
 import { ChallengeType } from "@/interfaces/dashboard.interfaces";
 import { getAllChallengesRequest } from "@/services/challenges.service";
+import { LoaderContext } from "@/components/providers/LoaderProvider";
 
 const tableRowList = [
   {
@@ -35,8 +36,10 @@ const tableRowList = [
 const Dashboard = () => {
   const [modal, setModal] = useState(false);
   const [challenges, setChallenges] = useState<ChallengeType[]>([]);
+  const { setLoading } = useContext(LoaderContext);
 
   const get = async () => {
+    setLoading(true);
     const { data, status } = await getAllChallengesRequest();
 
     if (status === 200) {
@@ -44,6 +47,7 @@ const Dashboard = () => {
 
       setChallenges(challengeData);
     }
+    setLoading(false);
   };
 
   useEffect(() => {

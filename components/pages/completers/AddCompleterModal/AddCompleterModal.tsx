@@ -1,12 +1,19 @@
 import styles from "@/components/pages/dashboard/AddChallengeModal/AddChallengeModal.module.scss";
 import Modal from "@/components/shared/Modal/Modal";
-import React, { Dispatch, FormEvent, SetStateAction, useRef } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useContext,
+  useRef,
+} from "react";
 import Input from "@/components/shared/Input/Input";
 import Button from "@/components/shared/Button/Button";
 import Textarea from "@/components/shared/Textarea/Textarea";
 import { formDataCreate } from "@/libs/form";
 import { createCompleterRequest } from "@/services/completers.service";
 import { CompleterType } from "@/interfaces/dashboard.interfaces";
+import { LoaderContext } from "@/components/providers/LoaderProvider";
 
 const AddCompleterModal = ({
   state,
@@ -17,6 +24,8 @@ const AddCompleterModal = ({
   setState: Dispatch<SetStateAction<boolean>>;
   setData: Dispatch<SetStateAction<CompleterType[]>>;
 }) => {
+  const { setLoading } = useContext(LoaderContext);
+
   const inputRefs = {
     firstName: useRef<HTMLInputElement>(null),
     lastName: useRef<HTMLInputElement>(null),
@@ -29,7 +38,7 @@ const AddCompleterModal = ({
   };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = formDataCreate([
       {
         name: "firstName",
@@ -73,6 +82,7 @@ const AddCompleterModal = ({
         return [...prevState, data.created];
       });
     }
+    setLoading(false);
   };
 
   return (
@@ -96,7 +106,11 @@ const AddCompleterModal = ({
             type="number"
             inputRef={inputRefs.fundingAmount}
           />
-          <Input name={"Profile Picture"} inputRef={inputRefs.profilePicture} />
+          <Input
+            name={"Profile Picture"}
+            type="url"
+            inputRef={inputRefs.profilePicture}
+          />
           <Textarea
             name={"Description"}
             required

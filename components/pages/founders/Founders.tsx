@@ -3,10 +3,11 @@
 import DefaultHeader from "@/components/shared/DefaultHeader/DefaultHeader";
 import Table from "@/components/shared/Table/Table";
 import styles from "./Founders.module.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddFounderModal from "./AddFounderModal/AddFounderModal";
 import { FounderType } from "@/interfaces/dashboard.interfaces";
 import { getAllFoundersRequest } from "@/services/founders.service";
+import { LoaderContext } from "@/components/providers/LoaderProvider";
 
 const tableRowList = [
   {
@@ -29,15 +30,17 @@ const tableRowList = [
 const Founders = () => {
   const [modal, setModal] = useState(false);
   const [founders, setFounders] = useState<FounderType[]>([]);
+  const { setLoading } = useContext(LoaderContext);
 
   const get = async () => {
+    setLoading(true);
     const { data, status } = await getAllFoundersRequest();
-
     if (status === 200) {
       const foundersData = data.founders;
 
       setFounders(foundersData);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
