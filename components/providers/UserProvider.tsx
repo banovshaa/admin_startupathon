@@ -9,9 +9,11 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useContext,
   useEffect,
   useState,
 } from "react";
+import { LoaderContext } from "./LoaderProvider";
 
 type UserContextType = {
   user: UserType | null;
@@ -27,6 +29,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const { setLoading } = useContext(LoaderContext);
+
   const check = async () => {
     const token = getCookie("usertoken");
 
@@ -39,6 +43,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
 
     try {
+      setLoading(true);
       const { data, status } = await checkCookieRequest(token);
 
       if (status === 200) {
@@ -54,6 +59,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       console.error("Error checking user:", error);
       setUser(null);
       router.push("/auth/login");
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
